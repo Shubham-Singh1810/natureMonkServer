@@ -8,7 +8,7 @@ const product = require("./routes/product.route")
 
 // connecting with database
 const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://shubham1810:mKQjrvgOyLBF5vG4@cluster0.5bhod07.mongodb.net/naturemonk?retryWrites=true&w=majority"
+mongoose.connect(process.env.MONGO_DB_CONNECTION_String
 ).then(()=>{
     console.warn("db connection done")
 });
