@@ -20,6 +20,9 @@ const productSchema = mongoose.Schema(
     category: {
       type: String,
     },
+    subCategory: {
+      type: String,
+    },
     productHeroImg: {
       type: String,
     },

@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const bannerImgSchema = mongoose.Schema(
   {
-    img : {
+    bannerImg : {
         type : String
     },
     category:{
-        type :String
+        type : String
     },
   },
   { timestamps: { createdAt: "createdAt" } }

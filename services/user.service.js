@@ -1,9 +1,9 @@
 const User = require("../models/user.model");
-const Contact = require("../models/contact.model")
 const UserOtp = require("../models/userOtp.model");
-const contact = require("../models/contact.model")
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
+const Product = require("../models/product.model");
+const Order = require("../models/order.model");
 // const Post = require("../models/post.model");
 require("dotenv").config();
 module.exports = {
@@ -110,39 +110,6 @@ module.exports = {
     }
     return result;
   },
-  contact: async function (body) {
-    let result ={}
-    try {
-      result.data = await new Contact(body).save();
-      let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false,
-        requireTLS: true,
-        auth: {
-          user: "hittheshubham1810@gmail.com", // generated ethereal user
-          pass: "eqauulfefeodhxel", // generated ethereal password
-        },
-      });
-      let mailOption = {
-        from: body.email,
-        to: "hittheshubham1810@gmail.com",
-        subject: `Contact email from ${body.name}`,
-        text: body.message,
-      };
-      transporter.sendMail(mailOption, async (error, info) => {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log(info.response);
-        }
-      });
-      result.message = "Thanks for connecting we will come back to you soon";
-    } catch (error) {
-      result.err = error;
-    }
-    return result
-  },
   getUserById: async function (id) {
     let result = {};
     try {
@@ -163,4 +130,17 @@ module.exports = {
     }
     return result
   },
+  getMegaResult : async function(){
+    let count ={};
+    try {
+      count.user = await User.countDocuments({});
+      count.product = await Product.countDocuments({});
+      count.active =  await Order.countDocuments({status :"active"});
+      count.delevered =  await Order.countDocuments({status :"delevered"});
+    } catch (error) {
+      count.err = error
+    }
+    console.log(count)
+    return count
+  }
 };

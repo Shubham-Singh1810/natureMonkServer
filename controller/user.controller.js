@@ -44,4 +44,8 @@ module.exports = {
     let result = await userServ.getUsers();
     util.sendResponse(result, req, res);
   },
+  getMegaResult: async function (req, res) {
+    let result = await userServ.getMegaResult();
+    util.sendResponse(result, req, res);
+  },
 };

@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 
-const activeOrderSchema = mongoose.Schema(
+const orderSchema = mongoose.Schema(
   {
-    quantity:{
-        type: String,
-    },
     status:{
         type: String,
     },
@@ -22,5 +19,5 @@ const activeOrderSchema = mongoose.Schema(
   { timestamps: { createdAt: "createdAt" } }
 );
 
-let ActiveOrder = mongoose.model("activeOrder", activeOrderSchema);
-module.exports = ActiveOrder;
+let Order = mongoose.model("order", orderSchema);
+module.exports = Order;

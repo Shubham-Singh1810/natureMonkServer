@@ -29,7 +29,7 @@ module.exports = {
     let result = await productServ.update(req.body._id, query);
     util.sendResponse(result, req, res);
   },
-  updateProductGaller: async function (req, res) {
+  uploadProductInGaller: async function (req, res) {
     let query;
     if (req.file) {
       query = { $push: { productGallery: process.env.API_BASE_URL + req.file.path } };
@@ -39,13 +39,23 @@ module.exports = {
     let result = await productServ.update(req.body._id, query);
     util.sendResponse(result, req, res);
   },
-  updateProductVideo: async function (req, res) {
+  DeleteProductPicInGaller: async function (req, res) {
+    let query = { $pull: { productGallery: req.body.productGalleryImg } };
+    let result = await productServ.update(req.body._id, query);
+    util.sendResponse(result, req, res);
+  },
+  uploadProductVideo: async function (req, res) {
     let query;
     if (req.file) {
       query = { $push: { video: process.env.API_BASE_URL + req.file.path } };
     } else {
       query = req.body;
     }
+    let result = await productServ.update(req.body._id, query);
+    util.sendResponse(result, req, res);
+  },
+  DeleteProductVideoInGaller: async function (req, res) {
+    let query = { $pull: { video: req.body.productGalleryVideo } };
     let result = await productServ.update(req.body._id, query);
     util.sendResponse(result, req, res);
   },

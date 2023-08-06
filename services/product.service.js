@@ -48,7 +48,7 @@ module.exports = {
     let result = {};
     try {
       result.data = await  Product.findByIdAndDelete(id);
-      result.message = "Product added successfully";
+      result.message = "Product Deleted successfully";
     } catch (error) {
       result.message = error;
     }
