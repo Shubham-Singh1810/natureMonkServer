@@ -2,6 +2,7 @@ const Notification = require("../models/notification.model");
 require("dotenv").config();
 module.exports = {
   create: async function (body) {
+    console.log(body)
     let result = {};
     try {
       result.data = await new Notification(body).save();

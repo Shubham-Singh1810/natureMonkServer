@@ -14,9 +14,7 @@ module.exports = {
   getProducts: async function (body) {
     let result = {};
     try {
-      result.data = await Product.find(body.query).sort({
-        createdAt: "desc",
-      }).limit(10).skip(parseInt(body.pageItem));
+      result.data = await Product.find(body.query).sort(body.sort).limit(body.limit).skip(parseInt(body.pageItem));
       result.message = "Product list fatched successfully";
       result.count = await Product.countDocuments(body.query);
     } catch (error) {

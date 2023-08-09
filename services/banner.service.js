@@ -15,8 +15,8 @@ module.exports = {
     let result = {};
     try {
       result.data = await Banner.find(body.query);
+      result.count =  await Banner.countDocuments(body.query)
       result.message = "Banner list fatched successfully";
-      result.count = await Banner.countDocuments(query);
     } catch (error) {
       result.message = error;
     }

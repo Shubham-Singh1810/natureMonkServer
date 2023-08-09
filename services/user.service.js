@@ -16,8 +16,10 @@ module.exports = {
       otp: otp,
     };
     let result = {};
-    let tempUser = await UserOtp.find({ email: body.email });
-    if (tempUser.length == 0) {
+    let tempUser = await UserOtp.findOne({ email: body.email });
+    if (tempUser) {
+      result.message = "This email is already registered";
+    } else {
       try {
         result.data = await new UserOtp(obj).save();
         let transporter = nodemailer.createTransport({
@@ -30,8 +32,8 @@ module.exports = {
             pass: "eqauulfefeodhxel", // generated ethereal password
           },
           tls: {
-            rejectUnauthorized: false
-          }
+            rejectUnauthorized: false,
+          },
         });
         let mailOption = {
           from: "hittheshubham1810@gmail.com",
@@ -50,8 +52,6 @@ module.exports = {
       } catch (error) {
         result.err = error;
       }
-    } else {
-      result.message = "Email is already registered";
     }
     return result;
   },
@@ -60,11 +60,11 @@ module.exports = {
     try {
       let tempUser = await UserOtp.findOne(body);
       if (tempUser) {
-        let obj ={
-           email : tempUser.email,
-           password : tempUser.password,
-           fullName : tempUser.fullName,
-        }
+        let obj = {
+          email: tempUser.email,
+          password: tempUser.password,
+          fullName: tempUser.fullName,
+        };
         result.data = await new User(obj).save();
         result.message = "User verified successfully";
       } else {
@@ -79,9 +79,9 @@ module.exports = {
     let result = {};
     try {
       logedUser = await User.findOne(body);
-      if (logedUser!=null) {
+      if (logedUser != null) {
         result.data = logedUser;
-        result.token = await jwt.sign( {logedUser} , process.env.JWT_KEY);
+        result.token = await jwt.sign({ logedUser }, process.env.JWT_KEY);
         result.message = "You are logged in successfully";
       } else {
         result.message = "Invalid login details";
@@ -113,34 +113,34 @@ module.exports = {
   getUserById: async function (id) {
     let result = {};
     try {
-      result.data = await User.findOne({_id:id});
-      result.message = "User data fatched successfully"
+      result.data = await User.findOne({ _id: id });
+      result.message = "User data fatched successfully";
     } catch (error) {
       result.err = error;
     }
     return result;
   },
-  getUsers : async function (req){
-    let result ={};
+  getUsers: async function (req) {
+    let result = {};
     try {
-      result.data = await User.find({})
-      result.message = "User list fatched successfully"
+      result.data = await User.find({});
+      result.message = "User list fatched successfully";
     } catch (error) {
-      result.err = error
+      result.err = error;
     }
-    return result
+    return result;
   },
-  getMegaResult : async function(){
-    let count ={};
+  getMegaResult: async function () {
+    let count = {};
     try {
       count.user = await User.countDocuments({});
       count.product = await Product.countDocuments({});
-      count.active =  await Order.countDocuments({status :"active"});
-      count.delevered =  await Order.countDocuments({status :"delevered"});
+      count.active = await Order.countDocuments({ status: "active" });
+      count.delevered = await Order.countDocuments({ status: "delevered" });
     } catch (error) {
-      count.err = error
+      count.err = error;
     }
-    console.log(count)
-    return count
-  }
+    console.log(count);
+    return count;
+  },
 };

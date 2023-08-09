@@ -10,6 +10,15 @@ const orderSchema = mongoose.Schema(
         ref: "users",
         required: true
     },
+    quantiy:{
+      type : String
+    },
+    paymentMethod:{
+      type : String
+    },
+    subTotal:{
+      type : Number
+    },
     productId : {
         type : mongoose.Schema.Types.ObjectId,
         ref: "products",

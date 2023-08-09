@@ -2,6 +2,7 @@ const notificationServ = require("../services/notification.service");
 const util = require("../utils/util");
 module.exports = {
   create: async function (req, res) {
+    console.log(req.body)
     let result = await notificationServ.create(req.body);
     util.sendResponse(result, req, res);
   },

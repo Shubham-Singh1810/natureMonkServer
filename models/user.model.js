@@ -29,6 +29,9 @@ const userSchema = mongoose.Schema(
     phoneNumber: {
       type: Number,
     },
+    status:{
+      type : String,
+    },
     pincode: {
       type: Number,
     },
