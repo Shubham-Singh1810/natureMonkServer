@@ -6,7 +6,7 @@ const multer = require("multer");
         cb(null, "uploads");
       },
       filename: function (req, file, cb) {
-        cb(null, Math.random() + file.originalname);
+        cb(null, Math.round(Math.random()*98765) + file.originalname);
       },
     }),
   });

@@ -3,6 +3,7 @@ require("dotenv").config();
 module.exports = {
   create: async function (body) {
     let result = {};
+    console.log(body ,"body")
     try {
       result.data = await new Banner(body).save();
       result.message = "Product added successfully";

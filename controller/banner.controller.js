@@ -4,6 +4,7 @@ module.exports = {
   create: async function (req, res) {
     let obj;
     if (req.file) {
+      console.log(req.file, "req")
       obj = { ...req.body, bannerImg : process.env.API_BASE_URL + req.file.path };
     } else {
       obj = req.body;
