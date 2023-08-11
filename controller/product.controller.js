@@ -1,10 +1,18 @@
 const productServ = require("../services/product.service");
 const util = require("../utils/util");
+const cloudinary = require("../utils/cloudinary");
 module.exports = {
   create: async function (req, res) {
     let obj;
     if (req.file) {
-      obj = { ...req.body, productHeroImg: process.env.API_BASE_URL + req.file.path };
+      let productHeroImg = await cloudinary.uploader.upload(req.file.path, function (err, result) {
+        if (err) {
+          return err;
+        } else {
+          return result;
+        }
+      });
+      obj = { ...req.body , productHeroImg:productHeroImg.url };
     } else {
       obj = req.body;
     }
@@ -22,7 +30,14 @@ module.exports = {
   update: async function (req, res) {
     let query;
     if (req.file) {
-      query = { $set: { ...req.body, productHeroImg: process.env.API_BASE_URL + req.file.path } };
+      let productHeroImg =  await cloudinary.uploader.upload(req.file.path, function (err, result) {
+        if (err) {
+          return err;
+        } else {
+          return result;
+        }
+      });
+      query = { $set: { ...req.body, productHeroImg: productHeroImg.url} };
     } else {
       query = { $set: { ...req.body } };
     }
@@ -32,7 +47,14 @@ module.exports = {
   uploadProductInGaller: async function (req, res) {
     let query;
     if (req.file) {
-      query = { $push: { productGallery: process.env.API_BASE_URL + req.file.path } };
+      let productGallery = await cloudinary.uploader.upload(req.file.path, function (err, result) {
+        if (err) {
+          return err;
+        } else {
+          return result;
+        }
+      });
+      query = { $push: { productGallery: productGallery.url } };
     } else {
       query = req.body;
     }
@@ -47,7 +69,14 @@ module.exports = {
   uploadProductVideo: async function (req, res) {
     let query;
     if (req.file) {
-      query = { $push: { video: process.env.API_BASE_URL + req.file.path } };
+      let video = await cloudinary.uploader.upload(req.file.path, function (err, result) {
+        if (err) {
+          return err;
+        } else {
+          return result;
+        }
+      });
+      query = { $push: { video: video.url} };
     } else {
       query = req.body;
     }

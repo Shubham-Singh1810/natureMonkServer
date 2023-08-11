@@ -1,11 +1,18 @@
 const bannerServ = require("../services/banner.service");
 const util = require("../utils/util");
+const cloudinary = require("../utils/cloudinary");
 module.exports = {
   create: async function (req, res) {
     let obj;
     if (req.file) {
-      console.log(req.file, "req")
-      obj = { ...req.body, bannerImg : process.env.API_BASE_URL + req.file.path };
+      let bannerImg = await cloudinary.uploader.upload(req.file.path, function (err, result) {
+        if (err) {
+          return err;
+        } else {
+          return result;
+        }
+      });
+      obj = { ...req.body , bannerImg:bannerImg.url };
     } else {
       obj = req.body;
     }

@@ -42,17 +42,17 @@ module.exports = {
     }
     return result;
   },
-  // getBanners: async function (body) {
-  //   let result = {};
-  //   try {
-  //     result.data = await Banner.find(body.query);
-  //     result.count =  await Banner.countDocuments(body.query)
-  //     result.message = "Banner list fatched successfully";
-  //   } catch (error) {
-  //     result.message = error;
-  //   }
-  //   return result;
-  // },
+  getOrders: async function (query) {
+    console.log(query)
+    let result = {};
+    try {
+      result.data = await Order.find(query).populate({path:"userId"}).populate({path:"productId"});
+      result.message = "Order List featched successfully"
+    } catch (error) {
+      result.message = error;
+    }
+    return result;
+  },
   // delete: async function (id) {
   //   let result = {};
   //   try {
