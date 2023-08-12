@@ -4,6 +4,7 @@ const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const Product = require("../models/product.model");
 const Order = require("../models/order.model");
+const { query } = require("express");
 // const Post = require("../models/post.model");
 require("dotenv").config();
 module.exports = {
@@ -142,5 +143,25 @@ module.exports = {
     }
     console.log(count);
     return count;
+  },
+  addToCart: async function (body) {
+    let result ={};
+    let query;
+    const user = await User.findOne({ _id: body.userId });
+    if (!user) {
+      result.message="User not found"
+    }
+    else{
+      if (user.cartItem.includes(body.productId)) {
+        query = { $pull: { cartItem: body.productId } };
+        result.message = "Removed From Cart";
+      } else {
+        query = { $push: { cartItem: body.productId } };
+        result.message = "Added To Cart";
+      }
+    }
+     await User.findByIdAndUpdate({_id: body.userId}, query);
+     result.data =await User.findOne({_id : body.userId})
+    return result;
   },
 };

@@ -48,4 +48,8 @@ module.exports = {
     let result = await userServ.getMegaResult();
     util.sendResponse(result, req, res);
   },
+  addToCart: async function (req, res) {
+    let result = await userServ.addToCart(req.body);
+    util.sendResponse(result, req, res);
+  },
 };

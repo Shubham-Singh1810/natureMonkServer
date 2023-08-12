@@ -13,6 +13,7 @@ router.route("/getUser/:id").get(userController.getUserById);
 router.route("/getUsers").get(userController.getUsers);
 router.route("/removeTempUser/:id").delete(userController.removeTempUser);
 router.route("/getMegaResult/").get(userController.getMegaResult);
+router.route("/addToCart/").post(userController.addToCart)
 
 
 module.exports = router
