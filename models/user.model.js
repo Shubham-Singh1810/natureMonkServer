@@ -40,16 +40,7 @@ const userSchema = mongoose.Schema(
         type: String,
       },
     ],
-    cartItem: [
-      {
-        type: String,
-      },
-    ],
-    orderList: [
-      {
-        type: String,
-      },
-    ],
+    cartItem: [{ type: mongoose.Schema.Types.ObjectId, ref: "products" }],
   },
   { timestamps: { createdAt: "createdAt" } }
 );

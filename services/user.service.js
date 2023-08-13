@@ -22,7 +22,7 @@ module.exports = {
       result.message = "This email is already registered";
     } else {
       try {
-        result.data = await new UserOtp(obj).save();
+         await new UserOtp(obj).save();
         let transporter = nodemailer.createTransport({
           host: "smtp.gmail.com",
           port: 587,
@@ -66,7 +66,7 @@ module.exports = {
           password: tempUser.password,
           fullName: tempUser.fullName,
         };
-        result.data = await new User(obj).save();
+        await new User(obj).save();
         result.message = "User verified successfully";
       } else {
         result.message = "Incorrect otp";
@@ -79,7 +79,7 @@ module.exports = {
   login: async function (body) {
     let result = {};
     try {
-      logedUser = await User.findOne(body);
+      logedUser = await User.findOne(body).populate({path:"cartItem"}).select("-password");
       if (logedUser != null) {
         result.data = logedUser;
         result.token = await jwt.sign({ logedUser }, process.env.JWT_KEY);
@@ -105,7 +105,7 @@ module.exports = {
     let result = {};
     try {
       result.data = await User.findByIdAndUpdate(body._id, { $set: body }, { new: true });
-      result.message = "Record Updated Successfully";
+      result.message = "User Updated Successfully";
     } catch (error) {
       result.err = error;
     }
@@ -161,7 +161,42 @@ module.exports = {
       }
     }
      await User.findByIdAndUpdate({_id: body.userId}, query);
-     result.data =await User.findOne({_id : body.userId})
+     result.data =await User.findOne({_id : body.userId}).populate({path :"cartItem"})
+    return result;
+  },
+  contact: async function (body) {
+    let result = {};
+    try {
+      result.message = "We have recived your message and come back to you soon:)";
+      let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        requireTLS: true,
+        auth: {
+          user: "hittheshubham1810@gmail.com", // generated ethereal user
+          pass: "eqauulfefeodhxel", // generated ethereal password
+        },
+        tls: {
+          rejectUnauthorized: false,
+        },
+      });
+      let mailOption = {
+        from: body.email,
+        to: "hittheshubham1810@gmail.com",
+        subject: body.name+" wants to connect you",
+        text: `${body.name} sends you message , subject : ${body.subject} , phone number : ${body.phoneNumber} and messages : ${body.message} `,
+      };
+      transporter.sendMail(mailOption, async (error, info) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log(info.response);
+        }
+      });
+    } catch (error) {
+      result.message = error;
+    }
     return result;
   },
 };
