@@ -83,7 +83,7 @@ module.exports = {
       if (logedUser != null) {
         result.data = logedUser;
         result.token = await jwt.sign({ logedUser }, process.env.JWT_KEY);
-        result.message = "You are logged in successfully";
+        result.message = "NatureNonk welcomes You :)";
       } else {
         result.message = "Invalid login details";
       }
